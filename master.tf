@@ -7,6 +7,7 @@ resource "digitalocean_ssh_key" "default" {
     public_key = "${file("id_rsa.pub")}"
 }
 
+
 resource "digitalocean_droplet" "master" {
     image = "centos-7-0-x64"
     name = "master"
@@ -16,10 +17,6 @@ resource "digitalocean_droplet" "master" {
     ssh_keys = ["XXXX"]
 
     depends_on = [ "digitalocean_ssh_key.default" ]
-}
-
-resource "digitalocean_droplet" "master" {
-
     connection {
       type = "ssh"
       host = "${digitalocean_droplet.master.ipv4_address}"
@@ -42,7 +39,7 @@ resource "digitalocean_droplet" "master" {
 
     provisioner "file" {
         source = "start-salt.sh"
-        destination = "/tmp/start-salt.sh"
+        destination = "/start-salt.sh"
     }
 
     provisioner "remote-exec" {
@@ -54,7 +51,7 @@ resource "digitalocean_droplet" "master" {
 
     provisioner "remote-exec" {
         inline = [
-            "cat /tmp/start-salt.sh | sh -s"
+            "cat /start-salt.sh | sh -s"
           ]
     }
 

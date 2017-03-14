@@ -30,3 +30,15 @@ php_stack:
     - user: root
     - group: root
     - mode: 644
+
+/var/www/html/index.html:
+  file.managed:
+    - template: jinja
+    - source: salt://web/conf/index.html
+
+/etc/consul/config.json:
+  file.managed:
+    - template: jinja
+    - source: salt://web/conf/config.json
+    - watch_in:
+      - service: consul

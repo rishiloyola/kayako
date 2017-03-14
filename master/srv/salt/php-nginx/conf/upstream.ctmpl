@@ -1,5 +1,0 @@
-upstream web {
-{{range service "web"}}
-    server {{.Address}}:{{.Port}};
-{{end}}
-}
